@@ -3,23 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ららぽーとTOKYO-BAYの魅力</title>
+    <title>ららぽーとTOKYO-BAYの魅力紹介</title>
     <link rel="stylesheet" href="utori.css">
+    <style>
+        /* 最初はコンテンツ全体を隠す設定 */
+        #secret-content {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>ららぽーとTOKYO-BAYってなあに</h1>
-    </header>
 
-    <main>
-        <section>
-            <h2>どういうところが人気なのか</h2>
-            <p>ここは本文です。ららぽーとTOKYO-BAYは、千葉県船橋市にある日本最大級のショッピングセンターです。ファッション、グルメ、エンターテインメントなど、多彩な店舗が集まっており、一日中楽しむことができます。</p>
-        </section>
-    </main>
+    <script>
+        // ページが開かれたらすぐにパスワードを聞く
+        const password = prompt("パスワードを入力してください:", "");
+        
+        // パスワードが「1234」だった場合のみ表示する
+        if (password === "1234") {
+            // 読み込みが完了したら中身を表示する
+            window.onload = function() {
+                document.getElementById("secret-content").style.display = "block";
+            }
+        } else {
+            // パスワードが間違っていた場合
+            alert("パスワードが違います。");
+        }
+    </script>
 
-    <footer>
-        <p>&copy; 2025 Lalaport Fan Page</p>
-    </footer>
-</body>
+    <div id="secret-content">
+        <header>
+            <h1>ららぽーとTOKYO-BAYってなあに</h1>
+        </header>
+
+        <main>
+            <section>
+                <h2>どういうところが人気なのか</h2>
+                <p>ここは本文です。ららぽーとTOKYO-BAYは、千葉県船橋市にある日本最大級のショッピングセンターです。ファッション、グルメ、エンターテインメントなど、多彩な店舗が集まっており、一日中楽しむことができます。</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Lalaport Fan Page</p>
+        </footer>
+    </div>
+    </body>
 </html>
+
