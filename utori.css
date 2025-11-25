@@ -1,1 +1,31 @@
+/* ページ全体の背景設定 */
+body {
+    /* 上から青(#0000ff)から白(#ffffff)へのグラデーション */
+    background: linear-gradient(to bottom, blue, white);
+    
+    /* グラデーションが画面全体に広がるように高さを指定 */
+    min-height: 100vh;
+    margin: 0;
+    font-family: sans-serif; /* 読みやすいゴシック体に設定 */
+}
+
+/* h1: 文字の色は赤 */
+h1 {
+    color: red;
+}
+
+/* h2: 文字の色は黒 */
+h2 {
+    color: black;
+}
+
+/* p: 本文は黒 */
+p {
+    color: black;
+}
+
+/* footer: コピーライトなども黒で見やすく */
+footer p {
+    color: black;
+}
 
