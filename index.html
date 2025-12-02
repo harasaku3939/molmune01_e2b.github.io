@@ -18,27 +18,36 @@
         if (password === "1234") {
             window.onload = function() {
                 document.getElementById("secret-content").style.display = "block";
-                initScrollEffect(); // 表示されたら演出を開始
+                initScrollEffect(); 
             }
         } else {
             alert("パスワードが違います。");
         }
 
-        // スクロール演出の関数
+        // 修正版：スクロール演出の関数
         function initScrollEffect() {
             const targets = document.querySelectorAll('.fade-target');
             
+            // スクロールするたびにチェック
             window.addEventListener('scroll', () => {
                 targets.forEach(target => {
                     const rect = target.getBoundingClientRect();
-                    // 画面の上端(100px以内)に来たら透明にする
-                    if (rect.top < 100) {
+                    const windowHeight = window.innerHeight;
+
+                    // 要素の中心位置を計算
+                    const elementCenter = rect.top + (rect.height / 2);
+
+                    // 画面の上の方（-100px）に行き過ぎたら消す
+                    if (rect.bottom < 50) {
                         target.style.opacity = '0';
                         target.style.transform = 'translateY(-20px)';
-                    } else {
-                        // それ以外（画面内に戻ってきたら）表示する
+                        target.style.pointerEvents = 'none'; // 消えている間はクリック不可に
+                    } 
+                    // 画面内に戻ってきたら必ず表示する
+                    else {
                         target.style.opacity = '1';
                         target.style.transform = 'translateY(0)';
+                        target.style.pointerEvents = 'auto';
                     }
                 });
             });
@@ -48,42 +57,54 @@
     <div id="secret-content">
         
         <header class="fade-target">
-            <div class="title-box">
-                <span class="main-title">Lalaport TOKYO-BAY</span>
-                <p class="sub-title">〜 船橋で出会う、トキメキの時間 〜</p>
+            <div class="header-inner">
+                <span class="main-title">Lalaport<br>TOKYO-BAY</span>
+                <p class="sub-title">♡ 船橋で出会う、トキメキの時間 ♡</p>
             </div>
         </header>
 
         <main>
             <section class="content-box fade-target">
                 <h1>
-                    🏰 ららぽーとTOKYO-BAYとは？<br>
-                    <span class="normal-text">
-                        ららぽーとTOKYO-BAY（ららぽーとトーキョー-ベイ）は、千葉県船橋市浜町二丁目にある、三井不動産傘下の三井不動産商業マネジメントが経営するモール型ショッピングセンター。<br><br>
-                        ららぽーと第一号店であり、フラグシップ（旗艦店）に位置付けられている。店舗数は約440店舗で、国内最大規模であり、年間約2,500万人が訪れる。
-                    </span>
+                    🏰 ららぽーとTOKYO-BAYとは？
                 </h1>
+                <div class="text-body">
+                    <p>ららぽーとTOKYO-BAY（ららぽーとトーキョー-ベイ）は、千葉県船橋市浜町二丁目にある、三井不動産傘下の三井不動産商業マネジメントが経営するモール型ショッピングセンター。</p>
+                    <p>ららぽーと第一号店であり、フラグシップ（旗艦店）に位置付けられている。店舗数は約440店舗で、国内最大規模であり、年間約2,500万人が訪れる。</p>
+                </div>
             </section>
 
             <section class="content-box fade-target">
                 <h2>✨ 規模と充実した店舗数</h2>
                 <div class="text-block">
-                    <p><strong>🛍️ 圧倒的な広さ</strong><br>
-                    全国に数あるららぽーとの中でもトップクラスの広さを誇り、ファッションからグルメ、映画館、アミューズメントまで、あらゆるジャンルの店舗が揃っています。</p>
+                    <div class="point-item">
+                        <span class="badge">POINT 1</span>
+                        <p><strong>🛍️ 圧倒的な広さ</strong><br>
+                        全国に数あるららぽーとの中でもトップクラスの広さを誇り、ファッションからグルメ、映画館、アミューズメントまで、あらゆるジャンルの店舗が揃っています。</p>
+                    </div>
                     
-                    <p><strong>👗 ショップの多様性</strong><br>
-                    流行のショップからライフスタイル雑貨、キャラクターショップまで、幅広い品揃えで飽きさせません。</p>
+                    <div class="point-item">
+                        <span class="badge">POINT 2</span>
+                        <p><strong>👗 ショップの多様性</strong><br>
+                        流行のショップからライフスタイル雑貨、キャラクターショップまで、幅広い品揃えで飽きさせません。</p>
+                    </div>
                 </div>
             </section>
 
             <section class="content-box fade-target">
                 <h2>🏝️ 非日常を感じる空間デザイン</h2>
                 <div class="text-block">
-                    <p><strong>🌺 リゾートのような雰囲気</strong><br>
-                    開放感のある吹き抜けや、南国風のヤシの木が配された空間は、まるでリゾート地にいるかのような非日常感を味わえると評判です。</p>
+                    <div class="point-item">
+                        <span class="badge">POINT 3</span>
+                        <p><strong>🌺 リゾートのような雰囲気</strong><br>
+                        開放感のある吹き抜けや、南国風のヤシの木が配された空間は、まるでリゾート地にいるかのような非日常感を味わえると評判です。</p>
+                    </div>
                     
-                    <p><strong>🎉 イベント広場</strong><br>
-                    施設内の各所にあるイベントスペースでは、定期的にライブやパフォーマンスなどが開催され、買い物以外の楽しみを提供しています。</p>
+                    <div class="point-item">
+                        <span class="badge">POINT 4</span>
+                        <p><strong>🎉 イベント広場</strong><br>
+                        施設内の各所にあるイベントスペースでは、定期的にライブやパフォーマンスなどが開催され、買い物以外の楽しみを提供しています。</p>
+                    </div>
                 </div>
             </section>
 
@@ -125,10 +146,12 @@
 
             <section class="content-box recommend-box fade-target">
                 <h3>💖 私のおすすめスポット</h3>
-                <p>おすすめはなんと言っても <strong>ポケモンセンター！⚡️</strong></p>
-                <p>全国でも数少ないポケモンオフィシャルストアが、なんとここにあります！<br>
-                最近リニューアルされて、さらに魅力的になったポケモンセンター。<br>
-                青を基調に華やかに迎えてくれるポケモンにあなたも会って見ませんか？</p>
+                <div class="pika-box">
+                    <p class="big-text">おすすめはなんと言っても<br><strong>ポケモンセンター！⚡️</strong></p>
+                    <p>全国でも数少ないポケモンオフィシャルストアが、なんとここにあります！<br>
+                    最近リニューアルされて、さらに魅力的になったポケモンセンター。<br>
+                    青を基調に華やかに迎えてくれるポケモンにあなたも会って見ませんか？</p>
+                </div>
             </section>
 
         </main>
@@ -138,8 +161,10 @@
                 <h4>📍 アクセス・インフォメーション</h4>
                 <p><strong>ららぽーとTOKYO-BAY</strong></p>
                 <p>〒273-8530 千葉県船橋市浜町 2-1-1</p>
-                <p>🚃 JR京葉線「南船橋」駅 徒歩5分（無料送迎バスあり）</p>
-                <p>🚃 京成本線「船橋競馬場」駅 徒歩10分（無料送迎バスあり）</p>
+                <div class="access-icons">
+                    <span>🚃 南船橋駅 5分</span>
+                    <span>🚌 無料バスあり</span>
+                </div>
             </div>
             <p class="copyright">&copy; 2025 Lalaport Fan Page</p>
         </footer>
