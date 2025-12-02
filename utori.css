@@ -1,184 +1,220 @@
 /* --------------------------------------------------
-   Google Fontsから「M PLUS Rounded 1c」を読み込み
-   丸っこくて可愛いフォントです
+   Google Fonts: 可愛らしい丸文字
 -------------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap');
 
 /* --------------------------------------------------
-   全体の設定
+   全体の設定：ドット柄とパステルカラー
 -------------------------------------------------- */
 body {
-    /* フォント設定 */
-    font-family: 'M PLUS Rounded 1c', "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-    color: #5a4a42; /* 文字色：真っ黒ではなく、優しいココア色 */
-    line-height: 1.8; /* 行間を広めにとって読みやすく */
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    color: #6b4c3e; /* チョコレート色 */
+    line-height: 1.8;
     
-    /* 背景：白と淡いピンクのチェック柄（布のような質感） */
-    background-color: #fff0f5; /* LavenderBlush */
-    background-image: 
-        linear-gradient(90deg, rgba(255, 228, 225, 0.5) 50%, transparent 50%),
-        linear-gradient(rgba(255, 228, 225, 0.5) 50%, transparent 50%);
-    background-size: 20px 20px; /* チェックの細かさ */
+    /* 背景：淡いピンクの水玉模様 */
+    background-color: #fff5f7;
+    background-image: radial-gradient(#ffc0cb 20%, transparent 20%);
+    background-size: 25px 25px;
     
     margin: 0;
     padding: 20px;
+    overflow-x: hidden;
 }
 
 /* --------------------------------------------------
-   メインコンテンツの箱（カードデザイン）
--------------------------------------------------- */
-#secret-content {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: rgba(255, 255, 255, 0.95); /* 少し透ける白 */
-    border-radius: 30px; /* 角を大きく丸く */
-    box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4); /* ふんわりピンクの影 */
-    padding: 40px;
-    border: 4px solid #fff; /* 白い縁取り */
-    outline: 2px dashed #ffb6c1; /* その外側にピンクの点線（ステッチ風） */
-}
-
-/* --------------------------------------------------
-   ヘッダーエリア
+   ヘッダー：ふわふわ浮かぶ雲のイメージ
 -------------------------------------------------- */
 header {
     text-align: center;
-    margin-bottom: 50px;
+    padding: 80px 20px 40px;
 }
 
-.title-box {
+.header-inner {
     display: inline-block;
-    border-bottom: 3px dotted #ff69b4;
-    padding-bottom: 10px;
+    background: #fff;
+    padding: 40px 60px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; /* 雲のような形 */
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+    animation: float 3s ease-in-out infinite; /* ふわふわ動く */
+    border: 4px solid #fff;
+    outline: 4px dotted #ffb6c1; /* 二重線風 */
 }
 
 .main-title {
-    font-size: 2.2rem;
-    color: #ff69b4; /* 濃いピンク */
-    letter-spacing: 0.1em;
+    display: block;
+    font-size: 2.8rem;
+    font-weight: 900;
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    -webkit-background-clip: text;
+    color: transparent;
+    line-height: 1.2;
+    margin-bottom: 10px;
 }
 
 .sub-title {
-    font-size: 0.9rem;
-    color: #a08080;
-    margin-top: 5px;
+    font-size: 1rem;
+    color: #ffb6c1;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    margin: 0;
+}
+
+/* ふわふわアニメーション */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
 
 /* --------------------------------------------------
-   見出しのデザイン
+   コンテンツボックス：手紙のようなデザイン
 -------------------------------------------------- */
-/* H1: メインの紹介文（リボンのようなデザイン） */
+.content-box {
+    background: #fff;
+    width: 90%;
+    max-width: 700px;
+    margin: 0 auto 50px auto;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+/* 上部にマスキングテープ風の装飾 */
+.content-box::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 35px;
+    background: rgba(255, 182, 193, 0.7);
+    transform: translateX(-50%) rotate(-2deg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-left: 2px dotted rgba(255,255,255,0.5);
+    border-right: 2px dotted rgba(255,255,255,0.5);
+}
+
+/* H1: リボン風 */
 h1 {
-    font-size: 1.3rem;
-    background-color: #ffe4e1; /* 薄いピンク背景 */
-    color: #5a4a42;
+    font-size: 1.4rem;
+    text-align: center;
+    color: #fff;
+    background: #ffb6c1;
+    padding: 15px;
+    border-radius: 50px;
+    box-shadow: 0 4px 0 #ff69b4; /* 立体感 */
+    margin: 0 0 30px 0;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.text-body {
+    text-align: justify;
+}
+
+/* H2: アイコン付きの見出し */
+h2 {
+    font-size: 1.5rem;
+    color: #ff69b4;
+    border-bottom: 3px dotted #ffb6c1;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+/* ポイントアイテム（バッジ付き） */
+.point-item {
+    background: #fffbf0; /* 薄いクリーム色 */
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    border: 2px solid #ffe4b5;
+}
+
+.badge {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background: #ff8c00;
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    box-shadow: 0 2px 0 #cc7000;
+}
+
+/* H3 & おすすめエリア：ポケモン風カラー */
+.recommend-box {
+    background: #e0f7fa; /* 水色 */
+    border: 4px dashed #4dd0e1;
+}
+
+/* テープ装飾をここだけ水色に上書き */
+.recommend-box::before {
+    background: rgba(77, 208, 225, 0.7);
+}
+
+h3 {
+    text-align: center;
+    color: #00bcd4;
+    font-size: 1.6rem;
+    margin-top: 0;
+    text-shadow: 2px 2px 0 #fff;
+}
+
+.pika-box {
+    text-align: center;
+    background: #fff;
     padding: 20px;
     border-radius: 15px;
-    text-align: center;
-    position: relative;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 0 #ffb6c1; /* 下に厚みを持たせて立体的に */
 }
 
-h1 .normal-text {
-    display: block;
-    margin-top: 15px;
-    font-size: 1rem;
-    font-weight: normal;
-    text-align: left;
-}
-
-/* H2: 各セクションの見出し（アイコン付き） */
-h2 {
-    font-size: 1.4rem;
-    color: #ff69b4;
-    border-bottom: 2px solid #ffe4e1;
-    padding-bottom: 5px;
-    margin-top: 40px;
-    margin-bottom: 20px;
-}
-
-/* H2の先頭にハートマークをつける */
-h2::before {
-    content: "♥";
-    color: #ffb6c1;
-    margin-right: 10px;
-}
-
-/* H3: おすすめスポット（ポップな感じ） */
-h3 {
-    font-size: 1.5rem;
-    color: #ff8da1;
-    text-align: center;
-    margin-bottom: 20px;
-    background: repeating-linear-gradient(
-        45deg,
-        #fff,
-        #fff 10px,
-        #fff0f5 10px,
-        #fff0f5 20px
-    ); /* ストライプ背景 */
-    padding: 10px;
-    border-radius: 50px;
-    border: 2px solid #ffb6c1;
-}
-
-/* --------------------------------------------------
-   本文とレイアウト
--------------------------------------------------- */
-p {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-/* 強調文字（マーカー風） */
-strong {
-    background: linear-gradient(transparent 60%, #fffacd 60%); /* 黄色のマーカー */
-    color: #d16b88;
-    padding: 0 4px;
-}
-
-/* おすすめボックス（ポケモンセンター） */
-.recommend-box {
-    background-color: #f0f8ff; /* 薄いブルー（ポケモンイメージ） */
-    border: 3px dashed #87cefa;
-    border-radius: 20px;
-    padding: 30px;
-    margin-top: 50px;
-    text-align: center;
+.big-text {
+    font-size: 1.2rem;
+    color: #fbc02d; /* ピカチュウイエロー */
 }
 
 /* --------------------------------------------------
    フッター
 -------------------------------------------------- */
 footer {
-    margin-top: 60px;
     text-align: center;
-    font-size: 0.9rem;
-    color: #888;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
+    margin-top: 80px;
+    padding-bottom: 40px;
 }
 
 .access-info {
-    background-color: #fff;
-    border: 1px solid #eee;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 0 auto 20px auto;
-    max-width: 500px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    background: #fff;
+    display: inline-block;
+    padding: 30px;
+    border-radius: 30px;
+    border: 4px solid #ffeff2;
 }
 
-.access-info h4 {
-    color: #777;
-    margin-top: 0;
+.access-icons span {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin: 5px;
+}
+
+.copyright {
+    margin-top: 20px;
+    color: #aaa;
+    font-size: 0.8rem;
 }
 
 /* --------------------------------------------------
    スクロール演出用のクラス
-   (JSで制御されますが、初期状態をCSSで指定)
+   (JSで制御、基本は見えている状態)
 -------------------------------------------------- */
 .fade-target {
-    transition: all 0.8s ease; /* ふわっと動く時間 */
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* ふんわり戻る */
+    will-change: opacity, transform;
 }
