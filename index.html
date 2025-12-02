@@ -3,49 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ららぽーとTOKYO-BAYの魅力紹介</title>
+    <title>ららぽーとTOKYO-BAYのご紹介</title>
     <link rel="stylesheet" href="utori.css">
     <style>
         /* 最初はコンテンツ全体を隠す設定 */
-        #secret-content {
-            display: none;
-        }
+        #secret-content { display: none; }
     </style>
 </head>
 <body>
 
     <script>
-        // ページが開かれたらすぐにパスワードを聞く
+        // パスワード処理
         const password = prompt("パスワードを入力してください:", "");
-        
-        // パスワードが「1234」だった場合のみ表示する
         if (password === "1234") {
-            // 読み込みが完了したら中身を表示する
             window.onload = function() {
                 document.getElementById("secret-content").style.display = "block";
+                initScrollEffect(); // 表示されたら演出を開始
             }
         } else {
-            // パスワードが間違っていた場合
             alert("パスワードが違います。");
+        }
+
+        // スクロール演出の関数
+        function initScrollEffect() {
+            const targets = document.querySelectorAll('.fade-target');
+            
+            window.addEventListener('scroll', () => {
+                targets.forEach(target => {
+                    const rect = target.getBoundingClientRect();
+                    // 画面の上端(100px以内)に来たら透明にする
+                    if (rect.top < 100) {
+                        target.style.opacity = '0';
+                        target.style.transform = 'translateY(-20px)';
+                    } else {
+                        // それ以外（画面内に戻ってきたら）表示する
+                        target.style.opacity = '1';
+                        target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
         }
     </script>
 
     <div id="secret-content">
-        <header>
-            <h1>ららぽーとTOKYO-BAYってなあに</h1>
+        
+        <header class="fade-target">
+            <div class="title-box">
+                <span class="main-title">Lalaport TOKYO-BAY</span>
+                <p class="sub-title">〜 船橋で出会う、トキメキの時間 〜</p>
+            </div>
         </header>
 
         <main>
-            <section>
-                <h2>どういうところが人気なのか</h2>
-                <p>ここは本文です。ららぽーとTOKYO-BAYは、千葉県船橋市にある日本最大級のショッピングセンターです。ファッション、グルメ、エンターテインメントなど、多彩な店舗が集まっており、一日中楽しむことができます。</p>
+            <section class="content-box fade-target">
+                <h1>
+                    🏰 ららぽーとTOKYO-BAYとは？<br>
+                    <span class="normal-text">
+                        ららぽーとTOKYO-BAY（ららぽーとトーキョー-ベイ）は、千葉県船橋市浜町二丁目にある、三井不動産傘下の三井不動産商業マネジメントが経営するモール型ショッピングセンター。<br><br>
+                        ららぽーと第一号店であり、フラグシップ（旗艦店）に位置付けられている。店舗数は約440店舗で、国内最大規模であり、年間約2,500万人が訪れる。
+                    </span>
+                </h1>
             </section>
+
+            <section class="content-box fade-target">
+                <h2>✨ 規模と充実した店舗数</h2>
+                <div class="text-block">
+                    <p><strong>🛍️ 圧倒的な広さ</strong><br>
+                    全国に数あるららぽーとの中でもトップクラスの広さを誇り、ファッションからグルメ、映画館、アミューズメントまで、あらゆるジャンルの店舗が揃っています。</p>
+                    
+                    <p><strong>👗 ショップの多様性</strong><br>
+                    流行のショップからライフスタイル雑貨、キャラクターショップまで、幅広い品揃えで飽きさせません。</p>
+                </div>
+            </section>
+
+            <section class="content-box fade-target">
+                <h2>🏝️ 非日常を感じる空間デザイン</h2>
+                <div class="text-block">
+                    <p><strong>🌺 リゾートのような雰囲気</strong><br>
+                    開放感のある吹き抜けや、南国風のヤシの木が配された空間は、まるでリゾート地にいるかのような非日常感を味わえると評判です。</p>
+                    
+                    <p><strong>🎉 イベント広場</strong><br>
+                    施設内の各所にあるイベントスペースでは、定期的にライブやパフォーマンスなどが開催され、買い物以外の楽しみを提供しています。</p>
+                </div>
+            </section>
+
+            <section class="content-box fade-target">
+                <h2>🎡 エンターテインメント施設</h2>
+                <div class="text-block">
+                    <p><strong>🎬 映画館</strong><br>
+                    10スクリーンを備えたシネマコンプレックスがあり、最新の映画を楽しめます。</p>
+                    
+                    <p><strong>👾 アミューズメント</strong><br>
+                    ゲームセンターやキッズ向けの遊び場など、子どもから大人まで楽しめる施設が充実しています。</p>
+                    
+                    <p><strong>🏀 ららアリーナ</strong><br>
+                    2024年に開業した多目的アリーナ「LaLa arena TOKYO-BAY」では、バスケットボールの試合やコンサートなどが開催され、地域のエンターテインメントの中心となっています。</p>
+                </div>
+            </section>
+
+            <section class="content-box fade-target">
+                <h2>🚃 利便性の高さ</h2>
+                <div class="text-block">
+                    <p><strong>🚶‍♀️ 駅からのアクセス</strong><br>
+                    JR南船橋駅から徒歩5分とアクセスが良く、無料送迎バスも利用できるため、気軽に訪れることができます。</p>
+                    
+                    <p><strong>✈️ 外国人観光客への配慮</strong><br>
+                    免税店や外貨両替所が設置されており、海外からの旅行客にも便利な環境が整っています。</p>
+                </div>
+            </section>
+
+            <section class="content-box fade-target">
+                <h2>👨‍👩‍👧‍👦 幅広い層に支持される多様性</h2>
+                <div class="text-block">
+                    <p><strong>👶 ファミリー層</strong><br>
+                    広大な敷地には子どもが遊べるスペースや、授乳室など、ファミリー向けの設備が充実しており、子連れでも安心して過ごせます。</p>
+                    
+                    <p><strong>🐶 ペット</strong><br>
+                    一部エリアではペット同伴も可能で、ドッグランやドッグカフェもあるため、ペット愛好家にも人気です。</p>
+                </div>
+            </section>
+
+            <section class="content-box recommend-box fade-target">
+                <h3>💖 私のおすすめスポット</h3>
+                <p>おすすめはなんと言っても <strong>ポケモンセンター！⚡️</strong></p>
+                <p>全国でも数少ないポケモンオフィシャルストアが、なんとここにあります！<br>
+                最近リニューアルされて、さらに魅力的になったポケモンセンター。<br>
+                青を基調に華やかに迎えてくれるポケモンにあなたも会って見ませんか？</p>
+            </section>
+
         </main>
 
-        <footer>
-            <p>&copy; 2025 Lalaport Fan Page</p>
+        <footer class="fade-target">
+            <div class="access-info">
+                <h4>📍 アクセス・インフォメーション</h4>
+                <p><strong>ららぽーとTOKYO-BAY</strong></p>
+                <p>〒273-8530 千葉県船橋市浜町 2-1-1</p>
+                <p>🚃 JR京葉線「南船橋」駅 徒歩5分（無料送迎バスあり）</p>
+                <p>🚃 京成本線「船橋競馬場」駅 徒歩10分（無料送迎バスあり）</p>
+            </div>
+            <p class="copyright">&copy; 2025 Lalaport Fan Page</p>
         </footer>
     </div>
-    </body>
+</body>
 </html>
-
