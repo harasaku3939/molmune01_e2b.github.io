@@ -3,171 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ららぽーとTOKYO-BAYのご紹介</title>
-    <link rel="stylesheet" href="utori.css">
+    <title>核分裂生成物ガチャ - Fission Gacha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=M+PLUS+Rounded+1c:wght@700&family=Shippori+Mincho+B1:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* 最初はコンテンツ全体を隠す設定 */
-        #secret-content { display: none; }
+        :root {
+            --primary-pink: #ff99bb;
+            --soft-blue: #b3e5fc;
+            --soft-yellow: #fff9c4;
+            --gold: #ffd700;
+        }
+
+        body {
+            /* 水玉とストライプを組み合わせた賑やかな背景 */
+            background-color: #fff5f7;
+            background-image: 
+                radial-gradient(#ffcad4 15%, transparent 16%),
+                radial-gradient(#ffcad4 15%, transparent 16%),
+                linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent);
+            background-size: 40px 40px, 40px 40px, 100px 100px;
+            background-position: 0 0, 20px 20px, 0 0;
+            font-family: 'Kosugi Maru', sans-serif;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        /* 画面端のデコレーション */
+        .deco-cloud {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 10px white);
+        }
+
+        .kawaii-font {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+        }
+
+        .divine-font {
+            font-family: 'Shippori Mincho B1', serif;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255, 255, 255, 1);
+        }
+
+        /* ガチャ本体 */
+        .gacha-machine {
+            position: relative;
+            width: 300px;
+            height: 420px;
+            background: var(--primary-pink);
+            border-radius: 150px 150px 60px 60px;
+            border: 10px solid #ff6699;
+            box-shadow: 0 15px 0 #e65585, 0 30px 40px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+
+        .gacha-dome {
+            width: 240px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 120px 120px 20px 20px;
+            margin: 20px auto;
+            border: 5px solid rgba(255, 255, 255, 0.9);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            padding: 15px;
+        }
+
+        .capsule-mini {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            margin: 3px;
+            box-shadow: inset -3px -3px 0 rgba(0,0,0,0.1);
+            animation: bounce 2.5s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+        }
+
+        .crank-base {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border: 8px solid #ff6699;
+            border-radius: 50%;
+            margin: 25px auto 0;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #ccc;
+        }
+
+        .crank-handle {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            width: 90%;
+            height: 15px;
+            background: #ff6699;
+            border-radius: 10px;
+            transform: translateY(-50%);
+        }
+
+        .rotating .crank-handle {
+            animation: rotate 0.6s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translateY(-50%) rotate(0deg); }
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        /* 演出用 */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,240,245,1) 100%);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .fission-event {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .u235 {
+            width: 90px;
+            height: 90px;
+            background: #b2f2bb; /* パステルグリーン */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 5px solid #fff;
+            box-shadow: 0 0 20px rgba(178, 242, 187, 0.8);
+            z-index: 10;
+        }
+
+        .neutron {
+            width: 35px;
+            height: 35px;
+            background: #ffc9c9; /* パステルレッド */
+            border-radius: 50%;
+            position: absolute;
+            left: -120px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 4px solid #fff;
+            z-index: 11;
+        }
+
+        .flash {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, #fff 10%, #fffde7 40%, #fff176 70%, transparent 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            z-index: 20;
+        }
+
+        .result-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 3rem;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            max-width: 350px;
+            width: 90%;
+            display: none;
+            border: 8px solid var(--primary-pink);
+            position: relative;
+        }
+
+        .rarity-tag {
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+
+        .ribbon {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6699;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 4px 0 #e65585;
+        }
+
+        /* キラキラ粒子 */
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle-anim 1s linear forwards;
+        }
+
+        @keyframes sparkle-anim {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
     </style>
 </head>
-<body>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- 背景デコレーション -->
+    <div class="deco-cloud top-10 left-10 text-6xl">☁️</div>
+    <div class="deco-cloud bottom-20 right-10 text-6xl">☁️</div>
+    <div class="deco-cloud top-40 right-20 text-4xl">⭐</div>
+    <div class="deco-cloud bottom-40 left-20 text-4xl">🍭</div>
+
+    <!-- メイン画面 -->
+    <div id="game-screen" class="text-center w-full max-w-md relative">
+        <div class="mb-6">
+            <h1 class="kawaii-font text-4xl text-pink-500 font-bold tracking-wider" style="text-shadow: 2px 2px 0 white, -2px -2px 0 white;">
+                核分裂生成物ガチャ
+            </h1>
+            <div class="text-pink-400 font-bold mt-1">Fission Product Collection</div>
+        </div>
+
+        <div class="gacha-machine">
+            <!-- チェック柄のベルト装飾 -->
+            <div class="w-full h-8 bg-white opacity-40 my-2 flex items-center justify-around overflow-hidden">
+                <div class="w-4 h-4 rounded-full bg-pink-300"></div>
+                <div class="w-4 h-4 rounded-full bg-pink-300"></div>
+                <div class="w-4 h-4 rounded-full bg-pink-300"></div>
+                <div class="w-4 h-4 rounded-full bg-pink-300"></div>
+                <div class="w-4 h-4 rounded-full bg-pink-300"></div>
+            </div>
+
+            <div id="dome-items" class="gacha-dome">
+                <!-- JSでドーム内の粒を表示 -->
+            </div>
+            
+            <div class="mt-2 text-white font-bold text-xl kawaii-font flex justify-center items-center gap-2">
+                <span>🎀</span> <span>1 Fission / Free</span> <span>🎀</span>
+            </div>
+
+            <div id="main-crank" class="crank-base">
+                <div class="crank-handle"></div>
+            </div>
+
+            <div class="mt-6 text-pink-700 font-bold animate-bounce flex items-center justify-center gap-1">
+                <span class="text-2xl">✨</span> まわしてね！ <span class="text-2xl">✨</span>
+            </div>
+        </div>
+
+        <div class="mt-10 p-4 bg-white bg-opacity-60 rounded-2xl border-2 border-pink-200 text-xs text-pink-500 kawaii-font">
+            JAERI-M-7873の235U熱中性子核分裂収率データに基づいたシミュレーションです
+        </div>
+    </div>
+
+    <!-- 演出用オーバーレイ -->
+    <div id="fission-overlay" class="overlay">
+        <div id="fission-stage" class="fission-event">
+            <div id="target-nucleus" class="u235">235U</div>
+            <div id="incoming-neutron" class="neutron">n</div>
+            <div id="fission-flash" class="flash"></div>
+        </div>
+
+        <div id="result-container" class="result-card">
+            <div class="ribbon kawaii-font">NEW GENERATION!</div>
+            <div id="rarity-badge" class="rarity-tag mt-4">COMMON</div>
+            <div id="product-symbol" class="divine-font text-7xl mb-2 text-yellow-600">Sr</div>
+            <div id="product-name" class="kawaii-font text-2xl font-bold mb-4">ストロンチウム-90</div>
+            <div id="product-mass" class="text-gray-400 mb-6 italic text-sm">Mass Number: 90</div>
+            <p id="product-desc" class="text-sm text-gray-600 mb-8 leading-relaxed kawaii-font"></p>
+            
+            <button onclick="resetGacha()" class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-4 px-10 rounded-full shadow-lg transition duration-300 transform hover:scale-105 active:scale-95 kawaii-font">
+                もういちど！ ↺
+            </button>
+        </div>
+    </div>
 
     <script>
-        // パスワード処理
-        const password = prompt("パスワードを入力してください:", "");
-        if (password === "1234") {
-            window.onload = function() {
-                document.getElementById("secret-content").style.display = "block";
-                initScrollEffect(); 
+        // 核分裂生成物データ
+        const products = [
+            { symbol: 'Zr', name: 'ジルコニウム-95', mass: 95, yield: 6.5, rarity: 'Common', desc: '軽核側のピーク付近！元気いっぱいの核種だよ。' },
+            { symbol: 'Mo', name: 'モリブデン-99', mass: 99, yield: 6.1, rarity: 'Common', desc: '医療の世界でも大人気！みんなを助けるヒーロー。' },
+            { symbol: 'Cs', name: 'セシウム-137', mass: 137, yield: 6.2, rarity: 'Common', desc: '重核側のエース！とっても存在感があるね。' },
+            { symbol: 'Ba', name: 'バリウム-140', mass: 140, yield: 6.3, rarity: 'Common', desc: 'どっしり構えた重核側の定番さん。' },
+            { symbol: 'I', name: 'ヨウ素-131', mass: 131, yield: 2.9, rarity: 'Rare', desc: '昇華しちゃう！？ちょっと気まぐれな性格。' },
+            { symbol: 'Sr', name: 'ストロンチウム-90', mass: 90, yield: 5.8, rarity: 'Common', desc: '骨と仲良し！カルシウムの親戚みたいな子。' },
+            { symbol: 'Ru', name: 'ルテニウム-106', mass: 106, yield: 0.4, rarity: 'Super Rare', desc: '谷間の入り口に住んでいる、恥ずかしがり屋。' },
+            { symbol: 'Ag', name: '銀-111', mass: 111, yield: 0.015, rarity: 'Ultra Rare', desc: '対称核分裂の奇跡！まばゆい銀色の輝き。' },
+            { symbol: 'Sn', name: 'スズ-125', mass: 125, yield: 0.03, rarity: 'Ultra Rare', desc: 'カモメの翼のど真ん中！出会えたら超ラッキー！' },
+            { symbol: 'Kr', name: 'クリプトン-85', mass: 85, yield: 0.3, rarity: 'Super Rare', desc: 'ふわふわ空を飛ぶ希ガスの妖精。' },
+            { symbol: 'Pm', name: 'プロメチウム-147', mass: 147, yield: 2.2, rarity: 'Rare', desc: '重核のすそ野に咲く、レアな輝き。' }
+        ];
+
+        const crank = document.getElementById('main-crank');
+        const overlay = document.getElementById('fission-overlay');
+        const neutron = document.getElementById('incoming-neutron');
+        const flash = document.getElementById('fission-flash');
+        const resultCard = document.getElementById('result-container');
+        const fissionStage = document.getElementById('fission-stage');
+        const dome = document.getElementById('dome-items');
+
+        function initDome() {
+            dome.innerHTML = '';
+            const colors = ['#ffaaa5', '#a8e6cf', '#ffdec1', '#dcedc1', '#b3e5fc'];
+            for (let i = 0; i < 35; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'capsule-mini';
+                dot.style.background = colors[i % colors.length];
+                dot.style.animationDelay = `${Math.random() * 2}s`;
+                dome.appendChild(dot);
             }
-        } else {
-            alert("パスワードが違います。");
         }
 
-        // 修正版：スクロール演出の関数
-        function initScrollEffect() {
-            const targets = document.querySelectorAll('.fade-target');
+        initDome();
+
+        crank.addEventListener('click', () => {
+            if (crank.classList.contains('rotating')) return;
+            crank.classList.add('rotating');
+            setTimeout(startFissionSequence, 800);
+        });
+
+        function startFissionSequence() {
+            overlay.style.display = 'flex';
+            fissionStage.style.display = 'block';
+            resultCard.style.display = 'none';
             
-            // スクロールするたびにチェック
-            window.addEventListener('scroll', () => {
-                targets.forEach(target => {
-                    const rect = target.getBoundingClientRect();
-                    const windowHeight = window.innerHeight;
+            neutron.animate([
+                { left: '-150px', opacity: 1 },
+                { left: '45%', opacity: 1, offset: 0.9 },
+                { left: '50%', opacity: 0 }
+            ], {
+                duration: 1200,
+                easing: 'ease-in',
+                fill: 'forwards'
+            }).onfinish = triggerExplosion;
+        }
 
-                    // 要素の中心位置を計算
-                    const elementCenter = rect.top + (rect.height / 2);
+        function triggerExplosion() {
+            flash.animate([
+                { width: '0', height: '0', opacity: 0 },
+                { width: '1000px', height: '1000px', opacity: 1, offset: 0.5 },
+                { width: '1200px', height: '1200px', opacity: 0 }
+            ], {
+                duration: 1000,
+                easing: 'ease-out'
+            }).onfinish = showResult;
+            
+            // 爆発に合わせて画面を揺らす
+            overlay.animate([
+                { transform: 'translate(1px, 1px) rotate(0deg)' },
+                { transform: 'translate(-1px, -2px) rotate(-1deg)' },
+                { transform: 'translate(-3px, 0px) rotate(1deg)' },
+                { transform: 'translate(0px, 0px) rotate(0deg)' }
+            ], { duration: 500 });
+        }
 
-                    // 画面の上の方（-100px）に行き過ぎたら消す
-                    if (rect.bottom < 50) {
-                        target.style.opacity = '0';
-                        target.style.transform = 'translateY(-20px)';
-                        target.style.pointerEvents = 'none'; // 消えている間はクリック不可に
-                    } 
-                    // 画面内に戻ってきたら必ず表示する
-                    else {
-                        target.style.opacity = '1';
-                        target.style.transform = 'translateY(0)';
-                        target.style.pointerEvents = 'auto';
-                    }
-                });
-            });
+        function showResult() {
+            fissionStage.style.display = 'none';
+            resultCard.style.display = 'block';
+            
+            const totalYield = products.reduce((acc, p) => acc + p.yield, 0);
+            let random = Math.random() * totalYield;
+            let selected = products[0];
+
+            for (const p of products) {
+                if (random < p.yield) {
+                    selected = p;
+                    break;
+                }
+                random -= p.yield;
+            }
+
+            document.getElementById('product-symbol').innerText = selected.symbol;
+            document.getElementById('product-name').innerText = selected.name;
+            document.getElementById('product-mass').innerText = `Mass Number: ${selected.mass}`;
+            document.getElementById('product-desc').innerText = selected.desc;
+            
+            const badge = document.getElementById('rarity-badge');
+            const symbol = document.getElementById('product-symbol');
+            badge.innerText = selected.rarity.toUpperCase();
+            
+            if (selected.rarity.includes('Ultra')) {
+                resultCard.style.borderColor = '#ffd700';
+                badge.style.background = 'linear-gradient(45deg, #f093fb 0%, #f5576c 100%)';
+                symbol.className = 'divine-font text-8xl mb-2 text-yellow-500 animate-pulse';
+                createSparkles();
+            } else if (selected.rarity.includes('Super')) {
+                resultCard.style.borderColor = '#96fbc4';
+                badge.style.background = 'linear-gradient(to top, #48c6ef 0%, #6f86d6 100%)';
+                symbol.className = 'divine-font text-7xl mb-2 text-indigo-500';
+            } else if (selected.rarity === 'Rare') {
+                resultCard.style.borderColor = '#ffecd2';
+                badge.style.background = '#ff9a9e';
+                symbol.className = 'divine-font text-6xl mb-2 text-pink-600';
+            } else {
+                resultCard.style.borderColor = '#ff99bb';
+                badge.style.background = '#ff99bb';
+                symbol.className = 'divine-font text-6xl mb-2 text-pink-400';
+            }
+        }
+
+        function createSparkles() {
+            for (let i = 0; i < 50; i++) {
+                const s = document.createElement('div');
+                s.className = 'sparkle';
+                s.innerText = i % 2 === 0 ? '✨' : '💖';
+                s.style.left = Math.random() * 100 + '%';
+                s.style.top = Math.random() * 100 + '%';
+                s.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                s.style.animationDelay = (Math.random() * 2) + 's';
+                overlay.appendChild(s);
+                setTimeout(() => s.remove(), 4000);
+            }
+        }
+
+        function resetGacha() {
+            overlay.style.display = 'none';
+            crank.classList.remove('rotating');
+            neutron.style.left = '-150px';
+            neutron.style.opacity = '1';
         }
     </script>
-
-    <div id="secret-content">
-        
-        <header class="fade-target">
-            <div class="header-inner">
-                <span class="main-title">Lalaport<br>TOKYO-BAY</span>
-                <p class="sub-title">♡ 船橋で出会う、トキメキの時間 ♡</p>
-            </div>
-        </header>
-
-        <main>
-            <section class="content-box fade-target">
-                <h1>
-                    🏰 ららぽーとTOKYO-BAYとは？
-                </h1>
-                <div class="text-body">
-                    <p>ららぽーとTOKYO-BAY（ららぽーとトーキョー-ベイ）は、千葉県船橋市浜町二丁目にある、三井不動産傘下の三井不動産商業マネジメントが経営するモール型ショッピングセンター。</p>
-                    <p>ららぽーと第一号店であり、フラグシップ（旗艦店）に位置付けられている。店舗数は約440店舗で、国内最大規模であり、年間約2,500万人が訪れる。</p>
-                </div>
-            </section>
-
-            <section class="content-box fade-target">
-                <h2>✨ 規模と充実した店舗数</h2>
-                <div class="text-block">
-                    <div class="point-item">
-                        <span class="badge">POINT 1</span>
-                        <p><strong>🛍️ 圧倒的な広さ</strong><br>
-                        全国に数あるららぽーとの中でもトップクラスの広さを誇り、ファッションからグルメ、映画館、アミューズメントまで、あらゆるジャンルの店舗が揃っています。</p>
-                    </div>
-                    
-                    <div class="point-item">
-                        <span class="badge">POINT 2</span>
-                        <p><strong>👗 ショップの多様性</strong><br>
-                        流行のショップからライフスタイル雑貨、キャラクターショップまで、幅広い品揃えで飽きさせません。</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="content-box fade-target">
-                <h2>🏝️ 非日常を感じる空間デザイン</h2>
-                <div class="text-block">
-                    <div class="point-item">
-                        <span class="badge">POINT 3</span>
-                        <p><strong>🌺 リゾートのような雰囲気</strong><br>
-                        開放感のある吹き抜けや、南国風のヤシの木が配された空間は、まるでリゾート地にいるかのような非日常感を味わえると評判です。</p>
-                    </div>
-                    
-                    <div class="point-item">
-                        <span class="badge">POINT 4</span>
-                        <p><strong>🎉 イベント広場</strong><br>
-                        施設内の各所にあるイベントスペースでは、定期的にライブやパフォーマンスなどが開催され、買い物以外の楽しみを提供しています。</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="content-box fade-target">
-                <h2>🎡 エンターテインメント施設</h2>
-                <div class="text-block">
-                    <p><strong>🎬 映画館</strong><br>
-                    10スクリーンを備えたシネマコンプレックスがあり、最新の映画を楽しめます。</p>
-                    
-                    <p><strong>👾 アミューズメント</strong><br>
-                    ゲームセンターやキッズ向けの遊び場など、子どもから大人まで楽しめる施設が充実しています。</p>
-                    
-                    <p><strong>🏀 ららアリーナ</strong><br>
-                    2024年に開業した多目的アリーナ「LaLa arena TOKYO-BAY」では、バスケットボールの試合やコンサートなどが開催され、地域のエンターテインメントの中心となっています。</p>
-                </div>
-            </section>
-
-            <section class="content-box fade-target">
-                <h2>🚃 利便性の高さ</h2>
-                <div class="text-block">
-                    <p><strong>🚶‍♀️ 駅からのアクセス</strong><br>
-                    JR南船橋駅から徒歩5分とアクセスが良く、無料送迎バスも利用できるため、気軽に訪れることができます。</p>
-                    
-                    <p><strong>✈️ 外国人観光客への配慮</strong><br>
-                    免税店や外貨両替所が設置されており、海外からの旅行客にも便利な環境が整っています。</p>
-                </div>
-            </section>
-
-            <section class="content-box fade-target">
-                <h2>👨‍👩‍👧‍👦 幅広い層に支持される多様性</h2>
-                <div class="text-block">
-                    <p><strong>👶 ファミリー層</strong><br>
-                    広大な敷地には子どもが遊べるスペースや、授乳室など、ファミリー向けの設備が充実しており、子連れでも安心して過ごせます。</p>
-                    
-                    <p><strong>🐶 ペット</strong><br>
-                    一部エリアではペット同伴も可能で、ドッグランやドッグカフェもあるため、ペット愛好家にも人気です。</p>
-                </div>
-            </section>
-
-            <section class="content-box recommend-box fade-target">
-                <h3>💖 私のおすすめスポット</h3>
-                <div class="pika-box">
-                    <p class="big-text">おすすめはなんと言っても<br><strong>ポケモンセンター！⚡️</strong></p>
-                    <p>全国でも数少ないポケモンオフィシャルストアが、なんとここにあります！<br>
-                    最近リニューアルされて、さらに魅力的になったポケモンセンター。<br>
-                    青を基調に華やかに迎えてくれるポケモンにあなたも会って見ませんか？</p>
-                </div>
-            </section>
-
-        </main>
-
-        <footer class="fade-target">
-            <div class="access-info">
-                <h4>📍 アクセス・インフォメーション</h4>
-                <p><strong>ららぽーとTOKYO-BAY</strong></p>
-                <p>〒273-8530 千葉県船橋市浜町 2-1-1</p>
-                <div class="access-icons">
-                    <span>🚃 南船橋駅 5分</span>
-                    <span>🚌 無料バスあり</span>
-                </div>
-            </div>
-            <p class="copyright">&copy; 2025 Lalaport Fan Page</p>
-        </footer>
-    </div>
 </body>
 </html>
+
